@@ -19,21 +19,22 @@ def load_config(filename):
 	config = configparser.ConfigParser()
 	config.read(filename)
 	# TODO: Extraire le nom du channel, le nom du compte et le mot de passe (jeton) dans les variables.
-	channel = ...
-	bot_nickname = ...
-	bot_password = ...
+	channel = config["chat"]["channel"]
+	bot_nickname = config["login"]["nickname"]
+	bot_password = config["login"]["password"]
 	return ConfigInfo(bot_nickname, bot_password, channel)
 
 def load_quotes(filename):
 	# TODO: Charger le contenu du fichier JSON des citations.
-	pass
+	data = json.load(open(filename, "r", encoding="UTF-8"))
+	return data
 
 def build_quotes_callback(bot, quotes):
 	def callback(*args):
 		# TODO: Choisir une catégorie au hasard.
-		random_category = ...
+		random_category = random.choice(list(quotes))
 		# TODO: Choisir une citation au hasard dans la catégorie.
-		random_quote = ...
+		random_quote = random.choice(quotes[random_category])
 		bot.send_privmsg(random_quote)
 	return callback
 
